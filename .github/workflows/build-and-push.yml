@@ -34,7 +34,7 @@ jobs:
           TOKEN: ${{ secrets.REPO_B_TOKEN }}
         run: |
           git clone https://${{ secrets.REPO_B_TOKEN }}:@github.com/openlabfree/gitops.git
-          cd mynginx-helm
+          cd gitops/mynginx-helm
           sed -i "s|tag:.*|tag: \"${{ github.sha }}\"|" values.yaml
           git config user.email "208937492+openlabfree@users.noreply.github.com"
           git config user.name "CI Bot"
