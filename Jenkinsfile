@@ -22,9 +22,9 @@ pipeline {
           script {
             def shortSha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
             sh """
-              docker login -u $DOCKER_USER -p $DOCKER_PASS
-              docker build -t ${IMAGE_NAME}:${shortSha} .
-              docker push ${IMAGE_NAME}:${shortSha}
+              sudo docker login -u $DOCKER_USER -p $DOCKER_PASS
+              sudo docker build -t ${IMAGE_NAME}:${shortSha} .
+              sudo docker push ${IMAGE_NAME}:${shortSha}
             """
           }
         }
