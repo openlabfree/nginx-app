@@ -53,7 +53,7 @@ pipeline {
           git config user.email "208937492+openlabfree@users.noreply.github.com"
           git add .
           git commit -am "Update image to ${shortSha}"
-          git push https://${GIT_USER}:${GIT_TOKEN}@github.com/openlabfree/gitops.git main
+          git push https://${GIT_USER}:${GIT_PASS}@github.com/openlabfree/gitops.git main
         """
       }
     }
