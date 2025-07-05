@@ -38,27 +38,27 @@ pipeline {
     // }
 
     stage('Update Kustomize Repo') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: "${GIT_CREDENTIALS_ID}", usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
-          script {
-            def shortSha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-            sh """
-              rm -rf gitops
-              git clone https://github.com/openlabfree/gitops.git
-              echo ${shortSha}
-              
-              cd gitops/mynginx-kustomize/overlays/dev
+  steps {
+    withCredentials([usernamePassword(credentialsId: "${GIT_CREDENTIALS_ID}", usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+      script {
+        def shortSha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+        sh """
+          rm -rf gitops
+          git clone https://${GIT_USER}:${GIT_PASS}@github.com/openlabfree/gitops.git
 
-              /home/ubuntu/build/kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${shortSha}
-              git config user.name "CI Bot"
-              git config user.email "208937492+openlabfree@users.noreply.github.com"
-              git add .
-              git commit -am "Update image to ${shortSha}"
-              git push origin main
-            """
-          }
-        }
+          cd gitops/mynginx-kustomize/overlays/dev
+          /home/ubuntu/build/kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${shortSha}
+
+          git config user.name "CI Bot"
+          git config user.email "208937492+openlabfree@users.noreply.github.com"
+          git add .
+          git commit -am "Update image to ${shortSha}"
+          git push origin main
+        """
       }
     }
+  }
+}
+
   }
 }
