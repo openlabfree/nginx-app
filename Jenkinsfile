@@ -44,7 +44,7 @@ pipeline {
         def shortSha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
         sh """
           rm -rf gitops
-          git clone https://${GIT_USER}:${GIT_PASS}@github.com/openlabfree/gitops.git
+          git clone https://github.com/openlabfree/gitops.git
 
           cd gitops/mynginx-kustomize/overlays/dev
           /home/ubuntu/build/kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${shortSha}
@@ -53,7 +53,7 @@ pipeline {
           git config user.email "208937492+openlabfree@users.noreply.github.com"
           git add .
           git commit -am "Update image to ${shortSha}"
-          git push origin main
+          git push https://${GIT_USER}:${GIT_TOKEN}@github.com/openlabfree/gitops.git main
         """
       }
     }
