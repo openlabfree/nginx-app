@@ -39,15 +39,19 @@ pipeline {
     stage('Update Kustomize Repo') {
       steps {
         withCredentials([usernamePassword(credentialsId: "${GIT_CREDENTIALS_ID}", usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
-          sh """
-            https://github.com/openlabfree/gitops.git
-            cd gitops/mynginx-kustomize
-            kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:$(git rev-parse --short HEAD)
-            git config user.name "CI Bot"
-            git config user.email "208937492+openlabfree@users.noreply.github.com"
-            git commit -am "Update image to $(git rev-parse --short HEAD)"
-            git push origin main
-          """
+          script {
+            def shortSha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+            sh """
+              git clone https://\${GIT_USER}:\${GIT_PASS}@github.com/openlabfree/gitops.git
+              cd gitops/mynginx-kustomize
+              kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${shortSha}
+              git config user.name "CI Bot"
+              git config user.email "208937492+openlabfree@users.noreply.github.com"
+              git add .
+              git commit -am "Update image to ${shortSha}"
+              git push origin main
+            """
+          }
         }
       }
     }
