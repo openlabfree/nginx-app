@@ -43,8 +43,9 @@ pipeline {
           script {
             def shortSha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
             sh """
-              git clone https://github.com/openlabfree/gitops.git || true
-
+              rm -rf gitops
+              git clone https://github.com/openlabfree/gitops.git
+              echo ${shortSha}
               
               cd gitops/mynginx-kustomize/overlays/dev
 
