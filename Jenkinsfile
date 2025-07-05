@@ -31,11 +31,11 @@ pipeline {
       }
     }
 
-    stage('Install kustomize') {
-      steps {
-        sh 'curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash'
-      }
-    }
+    // stage('Install kustomize') {
+    //   steps {
+    //     sh 'curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash'
+    //   }
+    // }
 
     stage('Update Kustomize Repo') {
       steps {
@@ -45,7 +45,7 @@ pipeline {
             sh """
               git clone https://github.com/openlabfree/gitops.git
               cd gitops/mynginx-kustomize
-              kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${shortSha}
+              /home/ubuntu/build/kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${shortSha}
               git config user.name "CI Bot"
               git config user.email "208937492+openlabfree@users.noreply.github.com"
               git add .
