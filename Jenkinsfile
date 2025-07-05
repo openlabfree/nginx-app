@@ -7,6 +7,7 @@ pipeline {
     DEPLOY_REPO = "https://github.com/openlabfree/gitops.git"
     DOCKERHUB_CREDS_ID = "dockerhub-creds"
     GIT_CREDENTIALS_ID = "github-creds"
+    GITHUB_TOKEN = "github_token"
   }
 
   stages {
@@ -53,7 +54,7 @@ pipeline {
           git config user.email "208937492+openlabfree@users.noreply.github.com"
           git add .
           git commit -am "Update image to ${shortSha}"
-          git push https://${GIT_USER}:${GIT_PASS}@github.com/openlabfree/gitops.git main
+          git push https://openlabfree:${GITHUB_TOKEN}@github.com/openlabfree/gitops.git main
         """
       }
     }
