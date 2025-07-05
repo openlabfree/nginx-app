@@ -45,8 +45,9 @@ pipeline {
             sh """
               git clone https://github.com/openlabfree/gitops.git || true
               cd gitops/mynginx-kustomize
-              sed -i 's/newTag: [0-9]*/newTag: "latest"/g' overlays/dev/kustomization.yaml
-              cd overlays/dev
+              
+              cd gitops/mynginx-kustomize/overlays/dev
+
               /home/ubuntu/build/kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${shortSha}
               git config user.name "CI Bot"
               git config user.email "208937492+openlabfree@users.noreply.github.com"
