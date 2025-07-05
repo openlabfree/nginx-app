@@ -1,10 +1,6 @@
 pipeline {
   
-  agent {
-    docker {
-      label 'docker'
-    }
-  }
+  agent { label 'docker' }
 
   environment {
     IMAGE_NAME = "openlabfree/mynginx"
