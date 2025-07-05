@@ -43,7 +43,7 @@ pipeline {
           script {
             def shortSha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
             sh """
-              git clone https://\${GIT_USER}:\${GIT_PASS}@github.com/openlabfree/gitops.git
+              git clone https://github.com/openlabfree/gitops.git
               cd gitops/mynginx-kustomize
               kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${shortSha}
               git config user.name "CI Bot"
